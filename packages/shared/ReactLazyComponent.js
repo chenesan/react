@@ -16,6 +16,7 @@ export type LazyComponent<T> = {
   _ctor: () => Thenable<{default: T}, mixed>,
   _status: 0 | 1 | 2,
   _result: any,
+  resetLoader: (() => Thenable<{default: T}, mixed>) => void,
 };
 
 type ResolvedLazyComponent<T> = {
@@ -23,6 +24,7 @@ type ResolvedLazyComponent<T> = {
   _ctor: () => Thenable<{default: T}, mixed>,
   _status: 1,
   _result: any,
+  resetLoader: (() => Thenable<{default: T}, mixed>) => void,
 };
 
 export const Pending = 0;

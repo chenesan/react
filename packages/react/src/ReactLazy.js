@@ -17,6 +17,11 @@ export function lazy<T, R>(ctor: () => Thenable<T, R>): LazyComponent<T> {
     // React uses these fields to store the result.
     _status: -1,
     _result: null,
+    resetLoader: (newCtor: () => Thenable<T, R>) => {
+      lazyType._ctor = newCtor;
+      lazyType._status = -1;
+      lazyType._result = null;
+    },
   };
 
   if (__DEV__) {

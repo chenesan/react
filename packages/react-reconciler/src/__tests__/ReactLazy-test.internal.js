@@ -108,6 +108,27 @@ describe('ReactLazy', () => {
     expect(root).toMatchRenderedOutput('Error: oh no');
   });
 
+  it('can reset loader function', async () => {
+    const LazyText = lazy(() => fakeImport(Text));
+
+    const syncLoader = () => ({
+      then(cb) {
+        cb({default: Text});
+      },
+    });
+
+    LazyText.resetLoader(syncLoader);
+
+    const root = ReactTestRenderer.create(
+      <Suspense fallback={<Text text="Loading..." />}>
+        <LazyText text="Hi" />
+      </Suspense>,
+    );
+
+    expect(ReactTestRenderer).toHaveYielded(['Hi']);
+    expect(root).toMatchRenderedOutput('Hi');
+  });
+
   it('multiple lazy components', async () => {
     function Foo() {
       return <Text text="Foo" />;
